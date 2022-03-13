@@ -12,7 +12,13 @@
 
 #include "cl_header.h"
 
-int	main(void)
+int	main(int argc, char **argv)
 {
+	(void) argv;
+	if (argc != 3)
+	{
+		
+	}
+	ft_putstr("ERROR. Check parameter count.\n");
 	return (0);
 }

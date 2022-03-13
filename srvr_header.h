@@ -13,4 +13,5 @@
 #ifndef SRVR_HEADER_H
 # define SRVR_HEADER_H
 # include <unistd.h>
+void	ft_putstr(char	*str);
 #endif

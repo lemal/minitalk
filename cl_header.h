@@ -12,5 +12,5 @@
 
 #ifndef CL_HEADER_H
 # define CL_HEADER_H
-
+void	ft_putstr(char	*str);
 #endif
