@@ -7,7 +7,7 @@ SRCS_SRVR	=	main_srvr.c
 HDRS	=		cl_header.h srvr_header.h
 
 OBJS_CL	=		${SRCS_CL:%.c=%.o}
-OBJS_SRVR	=	${SRCS_CL:%.c=%.o}
+OBJS_SRVR	=	${SRCS_SRVR:%.c=%.o}
 
 CC	=			cc
 RM	=			rm -f
