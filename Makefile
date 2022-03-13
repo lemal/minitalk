@@ -3,7 +3,7 @@ NAME_SRVR	=	server
 
 SRCS_CL	=		main_cl.c
 SRCS_SRVR	=	main_srvr.c
-SRCS_COMMON	=	common_funcs.c
+SRCS_COMMON	=	ft_printf_core_func.c printf_bits_more.c printf_bits.c atoi.c
 
 OBJS_CL	=		${SRCS_CL:%.c=%.o}
 OBJS_SRVR	=	${SRCS_SRVR:%.c=%.o}
@@ -19,7 +19,7 @@ C_FLAGS	=		-Wall -Wextra -Werror -fsanitize=address
 all:	${NAME_SRVR} ${NAME_CL}
 
 ${NAME_SRVR}:	${OBJS_SRVR}
-	${CC} ${C_FLAGS} ${OBJS_SRVR} ${OBJS_COMMON}-o ${NAME_SRVR}
+	${CC} ${C_FLAGS} ${OBJS_SRVR} ${OBJS_COMMON} -o ${NAME_SRVR}
 
 ${NAME_CL}:	${OBJS_CL}
 	${CC} ${C_FLAGS} ${OBJS_CL} ${OBJS_COMMON} -o ${NAME_CL}
