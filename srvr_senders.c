@@ -39,17 +39,17 @@ pid_t	ft_pid_sig_converter(int sig_num)
 	if (i < 32 && sig_num == SIGUSR1)//if pid not received, change this 32 to sizeof(pid_t) * 8
 	{
 		if (i == 0)
-			ft_bit_stuffer(0, &client_pid, true);
+			ft_pid_bit_stuffer(0, &client_pid, true);
 		else
-			ft_bit_stuffer(0, &client_pid, false);
+			ft_pid_bit_stuffer(0, &client_pid, false);
 		i++;
 	}
 	else if (i < 32 && sig_num == SIGUSR2)
 	{
 		if (i == 0)
-			ft_bit_stuffer(1, &client_pid, true);
+			ft_pid_bit_stuffer(1, &client_pid, true);
 		else
-			ft_bit_stuffer(1, &client_pid, false);
+			ft_pid_bit_stuffer(1, &client_pid, false);
 		i++;
 	}
 	else if (i == 32)

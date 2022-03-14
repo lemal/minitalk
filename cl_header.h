@@ -16,7 +16,7 @@
 # include <stdbool.h>
 # include <sys/types.h>
 # include <signal.h>
-# include <unistd.h>
+# include <stdlib.h>
 
 int		ft_printf(const	char *ptr, ...);
 int		ft_atoi(const char *str);

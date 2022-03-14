@@ -14,7 +14,7 @@
 
 void	ft_my_pid(pid_t server_pid)
 {
-	unsigned int	i;
+	int				i;
 	unsigned int	key;
 	pid_t			my_pid;
 

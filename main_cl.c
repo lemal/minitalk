@@ -12,7 +12,7 @@
 
 #include "cl_header.h"
 
-bool	ft_send_bit(pid_t server_pid, char my_str_char, int *bit_index)
+void	ft_send_bit(pid_t server_pid, char my_str_char, int *bit_index)//could be bool?
 {
 	unsigned int		key;
 
@@ -59,9 +59,6 @@ void	ft_sig_handler(int	sig_num)
 
 int	main(int argc, char **argv)
 {
-	unsigned int	i;
-
-	i = 0;
 	if (argc == 3)
 	{
 		ft_control((pid_t)ft_atoi(argv[1]), argv[2], true);
