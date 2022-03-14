@@ -43,6 +43,7 @@ pid_t	ft_pid_sig_converter(int sig_num)
 		else
 			ft_pid_bit_stuffer(0, &client_pid, false);
 		i++;
+		ft_printf("%s", "SIGUSR1\n");
 	}
 	else if (i < 32 && sig_num == SIGUSR2)
 	{
@@ -51,9 +52,13 @@ pid_t	ft_pid_sig_converter(int sig_num)
 		else
 			ft_pid_bit_stuffer(1, &client_pid, false);
 		i++;
+		ft_printf("%s", "SIGUSR2\n");
 	}
-	else if (i == 32)
+	if (i == 32)
+	{
+		ft_printf("\ncliPID %d\n", (int)client_pid);
 		return (client_pid);
+	}
 	return (0);
 }
 

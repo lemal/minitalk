@@ -20,16 +20,22 @@ void	ft_my_pid(pid_t server_pid)
 
 	i = 31;
 	my_pid = getpid();
+	ft_printf("clipid: %d\n", my_pid);
 	while (i >= 0)
 	{
 		key = 1;
 		key <<= i;
 		if (key & my_pid)
+		{
 			kill(server_pid, SIGUSR2);
+			ft_printf("%s", "SIG_USR2\n");
+		}
 		else
+		{
 			kill(server_pid, SIGUSR1);
-		sleep(10);
+			ft_printf("%s", "SIG_USR1\n");
+		}
 		i--;
 	}
-	
+	sleep(1);
 }
