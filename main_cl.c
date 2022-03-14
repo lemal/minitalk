@@ -47,7 +47,6 @@ void	ft_control(pid_t server_pid, char *my_str, bool set)
 			j = 8;
 		}
 	}
-
 }
 
 void	ft_sig_handler(int	sig_num)
@@ -65,7 +64,7 @@ int	main(int argc, char **argv)
 	i = 0;
 	if (argc == 3)
 	{
-		ft_control(ft_atoi(argv[1]), argv[2], true);
+		ft_control((pid_t)ft_atoi(argv[1]), argv[2], true);
 		signal(SIGUSR1, ft_sig_handler);
 		signal(SIGUSR2, ft_sig_handler);
 		while (1);

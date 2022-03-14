@@ -1,8 +1,8 @@
 NAME_CL	=		client
 NAME_SRVR	=	server
 
-SRCS_CL	=		main_cl.c atoi.c
-SRCS_SRVR	=	main_srvr.c srvr_get_pid.c
+SRCS_CL	=		main_cl.c atoi.c client_snd_pid.c
+SRCS_SRVR	=	main_srvr.c srvr_senders.c
 SRCS_COMMON	=	ft_printf_core_func.c printf_bits_more.c printf_bits.c
 
 INC	=			cl_header.h ft_printf.h srvr_header.h
