@@ -12,54 +12,63 @@
 
 #include "cl_header.h"
 
-void	ft_send_one()
+bool	ft_send_bit(pid_t server_pid, char my_str_char, int *bit_index)
 {
+	unsigned int		key;
 
+	(*bit_index)--;
+	key = 1;
+	key <<= *bit_index;
+	if (my_str_char & key)
+		kill(server_pid, SIGUSR2);
+	else
+		kill(server_pid, SIGUSR1);
 }
 
-void	ft_send_zero()
+void	ft_control(pid_t server_pid, char *my_str, bool set)
 {
+	static pid_t	stored_srvr_pid;
+	static char		*stored_my_str;
+	static int		i;
+	static int		j = 8;
 
-}
-
-bool	ft_wait(some_signal_thing)
-{
-	while (signal_received != sig_value);
-}
-
-void	ft_byte_act(char	alnum, int	pid)
-{
-	short int	i;
-	char		mask;
-
-	i = 7;
-	while (i <= 0)
+	if (set)
 	{
-		mask = 1;
-		mask <<= i;
-		if (alnum & mask)
-			ft_send_one(pid);
-		else
-			ft_send_zero(pid);
-		i--;
+		stored_srvr_pid = server_pid;
+		stored_my_str = my_str;
+		ft_my_pid(server_pid);
 	}
+	else if (!set)
+	{
+		ft_send_bit(stored_srvr_pid, stored_my_str[i], &j);
+		if (j == 0)
+		{
+			i++;
+			j = 8;
+		}
+	}
+
+}
+
+void	ft_sig_handler(int	sig_num)
+{
+	if (sig_num == SIGUSR1)
+		ft_control(0, NULL, false);
+	else if (sig_num == SIGUSR2)
+		exit(0);
 }
 
 int	main(int argc, char **argv)
 {
-	unsigned int	pid;
-	int				i;
+	unsigned int	i;
 
 	i = 0;
 	if (argc == 3)
 	{
-		pid = ft_atoi(argv[1]);
-		while (argv[2][i])
-		{
-			ft_byte_act(argv[2][i], pid);
-			i++;
-		}
-		return (0);
+		ft_control(ft_atoi(argv[1]), argv[2], true);
+		signal(SIGUSR1, ft_sig_handler);
+		signal(SIGUSR2, ft_sig_handler);
+		while (1);
 	}
 	ft_printf("%s", "ERROR. Check parameter count.\n");
 	return (0);

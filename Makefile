@@ -1,9 +1,11 @@
 NAME_CL	=		client
 NAME_SRVR	=	server
 
-SRCS_CL	=		main_cl.c
-SRCS_SRVR	=	main_srvr.c
-SRCS_COMMON	=	ft_printf_core_func.c printf_bits_more.c printf_bits.c atoi.c
+SRCS_CL	=		main_cl.c atoi.c
+SRCS_SRVR	=	main_srvr.c srvr_get_pid.c
+SRCS_COMMON	=	ft_printf_core_func.c printf_bits_more.c printf_bits.c
+
+INC	=			cl_header.h ft_printf.h srvr_header.h
 
 OBJS_CL	=		${SRCS_CL:%.c=%.o}
 OBJS_SRVR	=	${SRCS_SRVR:%.c=%.o}
@@ -13,7 +15,7 @@ CC	=			cc
 RM	=			rm -f
 C_FLAGS	=		-Wall -Wextra -Werror -fsanitize=address
 
-%.o:	%.c Makefile
+%.o:	%.c Makefile ${INC}
 	${CC} ${C_FLAGS} ${SRCS_CL} ${SRCS_SRVR} ${SRCS_COMMON} -c
 
 all:	${NAME_SRVR} ${NAME_CL}

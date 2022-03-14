@@ -14,6 +14,11 @@
 # define CL_HEADER_H
 # include "ft_printf.h"
 # include <stdbool.h>
-int	ft_atoi(const	char	*str);
-int	ft_printf(const	char *ptr, ...);
+# include <sys/types.h>
+# include <signal.h>
+# include <unistd.h>
+
+int		ft_printf(const	char *ptr, ...);
+int		ft_atoi(const char *str);
+void	ft_my_pid(pid_t server_pid);
 #endif

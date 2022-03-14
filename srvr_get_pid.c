@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   atoi.c                                             :+:      :+:    :+:   */
+/*   srvr_get_pid.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tapulask <tapulask@21.school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,45 +10,49 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include "srvr_header.h"
 
-static int	ft_local_checks(size_t num, int minus)
+void	ft_pid_bit_stuffer(bool choice, pid_t *built_int, bool reset)
 {
-	if (minus == -1)
+	static pid_t	bit_index;
+	pid_t			key;
+
+	key = 1;
+	if (reset)
 	{
-		if (num * minus >= (size_t)(-2147483648))
-			return ((int)(num * minus));
-		else if (num * minus < (size_t)(-2147483648))
-			return (0);
+		bit_index = 31;
+		*built_int = 0;
 	}
-	if (num <= (size_t)(+2147483647))
+	if (choice)
 	{
-		return ((int)num);
+		key <<= bit_index;
+		*built_int |= key;
 	}
-	else if (num > (size_t)(+2147483647))
-		return (-1);
-	return (0);
+	bit_index--;
 }
 
-int	ft_atoi(const char *str)
+unsigned int	ft_pid_sig_converter(int sig_num)
 {
-	size_t	num;
-	int		minus;
+	static int	i;
+	pid_t		client_pid;
 
-	num = 0;
-	minus = 1;
-	while (((*str >= 9) && (*str <= 13)) || (*str == 32))
-		str++;
-	if ((*str == '-') || (*str == '+'))
+	if (i < 32 && sig_num == SIGUSR1)//if pid not received, change this 32 to sizeof(pid_t) * 8
 	{
-		if (*str == '-')
-			minus *= -1;
-		str++;
+		if (i == 0)
+			ft_bit_stuffer(0, &client_pid, true);
+		else
+			ft_bit_stuffer(0, &client_pid, false);
+		i++;
 	}
-	while ((*str >= '0') && (*str <= '9'))
+	else if (i < 32 && sig_num == SIGUSR2)
 	{
-		num = num * 10 + (*str - '0');
-		str++;
+		if (i == 0)
+			ft_bit_stuffer(1, &client_pid, true);
+		else
+			ft_bit_stuffer(1, &client_pid, false);
+		i++;
 	}
-	return (ft_local_checks(num, minus));
+	else if (i == 32)
+		return (client_pid);
+	return (0);
 }

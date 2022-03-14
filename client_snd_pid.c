@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   srvr_header.h                                      :+:      :+:    :+:   */
+/*   client_snd_pid.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tapulask <tapulask@21.school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,14 +10,26 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SRVR_HEADER_H
-# define SRVR_HEADER_H
-# include "ft_printf.h"
-# include <sys/types.h>
-# include <signal.h>
-# include <stdbool.h>
-# include <stdlib.h>
-# include <unistd.h>
+#include "cl_header.h"
 
-unsigned int	ft_pid_sig_converter(int sig_num);
-#endif
+void	ft_my_pid(pid_t server_pid)
+{
+	unsigned int	i;
+	unsigned int	key;
+	pid_t			my_pid;
+
+	i = 31;
+	my_pid = getpid();
+	while (i >= 0)
+	{
+		key = 1;
+		key <<= i;
+		if (key & my_pid)
+			kill(server_pid, SIGUSR2);
+		else
+			kill(server_pid, SIGUSR1);
+		sleep(10);
+		i--;
+	}
+	
+}
