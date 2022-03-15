@@ -24,7 +24,6 @@ void	ft_bit_stuffer(bool choice, char *built_char, bool reset)
 	}
 	if (choice)
 		*built_char |= (1 << bit_index);
-	printf("%d\n", bit_index);
 	bit_index--;
 }
 
@@ -48,33 +47,35 @@ void	ft_check_sig(int sig_num, int *i, char *built_char)
 	}
 }
 
-void	ft_sig_handler(int	sig_num)
+void	ft_sig_handler(int	sig_num, siginfo_t *info, void *context)
 {
 	static char	built_char;
 	static int	i;
-
-	printf("%s", "in_server\n");
+	(void)		context;
+	
 	ft_check_sig(sig_num, &i, &built_char);
 	if (i == 8)
 	{
 		write(1, &built_char, 1);
 		i = 0;
 	}
-	kill(0, SIGUSR2);
+	kill(info->si_pid, SIGUSR2);
 }
 
 int	main(void)
 {
-	static bool on_check;
+	static bool 		on_check;
+	struct sigaction	sa;
 
 	if (!on_check)
 	{
 		ft_printf("%d\n", getpid());
 		on_check = true;
 	}
-	pause();
-	signal(SIGUSR1, ft_sig_handler);
-	signal(SIGUSR2, ft_sig_handler);
+	sa.sa_flags = SA_SIGINFO;
+	sa.sa_sigaction = ft_sig_handler;
+	sigaction(SIGUSR1, &sa, NULL);
+	sigaction(SIGUSR2, &sa, NULL);
 	while (1);
 	return (0);
 }

@@ -12,6 +12,7 @@
 
 #ifndef SRVR_HEADER_H
 # define SRVR_HEADER_H
+# define _POSIX_C_SOURCE 199309L
 # include "ft_printf.h"
 # include <sys/types.h>
 # include <signal.h>
