@@ -28,7 +28,7 @@ void	ft_my_pid(pid_t server_pid)
 			kill(server_pid, SIGUSR2);
 		else
 			kill(server_pid, SIGUSR1);
-		sleep(10);
+		//sleep(1);
 		i--;
 	}
 	

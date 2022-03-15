@@ -14,12 +14,8 @@
 
 void	ft_send_bit(pid_t server_pid, char my_str_char, int *bit_index)//could be bool?
 {
-	unsigned int		key;
-
 	(*bit_index)--;
-	key = 1;
-	key <<= *bit_index;
-	if (my_str_char & key)
+	if (my_str_char & (1 << *bit_index))
 		kill(server_pid, SIGUSR2);
 	else
 		kill(server_pid, SIGUSR1);
@@ -51,10 +47,7 @@ void	ft_control(pid_t server_pid, char *my_str, bool set)
 
 void	ft_sig_handler(int	sig_num)
 {
-	if (sig_num == SIGUSR1)
-		ft_control(0, NULL, false);
-	else if (sig_num == SIGUSR2)
-		exit(0);
+	ft_control(0, NULL, false);
 }
 
 int	main(int argc, char **argv)
@@ -63,7 +56,6 @@ int	main(int argc, char **argv)
 	{
 		ft_control((pid_t)ft_atoi(argv[1]), argv[2], true);
 		signal(SIGUSR1, ft_sig_handler);
-		signal(SIGUSR2, ft_sig_handler);
 		while (1);
 	}
 	ft_printf("%s", "ERROR. Check parameter count.\n");

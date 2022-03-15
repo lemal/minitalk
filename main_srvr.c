@@ -68,7 +68,7 @@ void	ft_sig_handler(int	sig_num)
 	else
 	{
 		ft_sig_converter(sig_num, &built_str, &i);
-		write(1, "Got a bit\n", 13);
+		//write(1, "Got a bit\n", 13);
 		if (built_str[i])
 			kill(client_pid, SIGUSR1);//if broken, remove. Set the client to exit when the last is sent.
 		if (!built_str[i])

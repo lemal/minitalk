@@ -15,19 +15,14 @@
 void	ft_pid_bit_stuffer(bool choice, pid_t *built_int, bool reset)
 {
 	static pid_t	bit_index;
-	pid_t			key;
-
-	key = 1;
+	
 	if (reset)
 	{
 		bit_index = 31;
 		*built_int = 0;
 	}
 	if (choice)
-	{
-		key <<= bit_index;
-		*built_int |= key;
-	}
+		*built_int |= (1 << bit_index);
 	bit_index--;
 }
 
@@ -52,7 +47,7 @@ pid_t	ft_pid_sig_converter(int sig_num)
 			ft_pid_bit_stuffer(1, &client_pid, false);
 		i++;
 	}
-	else if (i == 32)
+	if (i == 31)
 		return (client_pid);
 	return (0);
 }
@@ -89,9 +84,9 @@ void	ft_check_sig(int sig_num, int *i, char *built_char)
 	else if (*i < 8 && sig_num == 12)
 	{
 		if (*i == 0)
-			ft_bit_stuffer(0, built_char, true);
+			ft_bit_stuffer(1, built_char, true);
 		else
-			ft_bit_stuffer(0, built_char, false);
+			ft_bit_stuffer(1, built_char, false);
 		(*i)++;
 	}
 }
