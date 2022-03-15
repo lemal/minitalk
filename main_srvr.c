@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "srvr_header.h"
-#include <stdio.h>
 
 void	ft_bit_stuffer(bool choice, char *built_char, bool reset)
 {
@@ -47,16 +46,19 @@ void	ft_check_sig(int sig_num, int *i, char *built_char)
 	}
 }
 
-void	ft_sig_handler(int	sig_num, siginfo_t *info, void *context)
+void	ft_sig_handler(int sig_num, siginfo_t *info, void *context)
 {
 	static char	built_char;
 	static int	i;
-	(void)		context;
-	
+
+	(void) context;
 	ft_check_sig(sig_num, &i, &built_char);
 	if (i == 8)
 	{
-		write(1, &built_char, 1);
+		if (built_char)
+			write(1, &built_char, 1);
+		if (!built_char)
+			write(1, "\0\n", 2);
 		i = 0;
 	}
 	kill(info->si_pid, SIGUSR2);
@@ -64,8 +66,8 @@ void	ft_sig_handler(int	sig_num, siginfo_t *info, void *context)
 
 int	main(void)
 {
-	static bool 		on_check;
-	struct sigaction	sa;
+	static bool	on_check;
+	t_sig		sa;
 
 	if (!on_check)
 	{
@@ -76,6 +78,7 @@ int	main(void)
 	sa.sa_sigaction = ft_sig_handler;
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
-	while (1);
+	while (1)
+		;
 	return (0);
 }

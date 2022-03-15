@@ -11,9 +11,8 @@
 /* ************************************************************************** */
 
 #include "cl_header.h"
-#include <stdio.h>
 
-void	ft_send_bit(pid_t server_pid, char my_str_char, int *bit_index)//could be bool?
+void	ft_send_bit(pid_t server_pid, char my_str_char, int *bit_index)
 {
 	(*bit_index)--;
 	if (my_str_char & (1 << *bit_index))
@@ -61,9 +60,8 @@ int	main(int argc, char **argv)
 		ft_control(0, NULL, false);
 		signal(SIGUSR2, ft_handler);
 		pause();
-		while (1);
-		// while (1)
-		// 	ft_handler();
+		while (1)
+			;
 	}
 	ft_printf("%s", "ERROR. Check parameter count.\n");
 	return (0);

@@ -20,6 +20,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 
+typedef struct sigaction	t_sig;
 void	ft_check_sig(int sig_num, int *i, char *built_char);
 int		ft_printf(const	char *ptr, ...);
 #endif

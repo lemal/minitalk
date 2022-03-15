@@ -12,13 +12,13 @@
 
 #include "ft_printf.h"
 
-void	ft_putchar(char	*c, int	*count)
+void	ft_putchar(char *c, int *count)
 {
 	write (1, &c, 1);
 	(*count)++;
 }
 
-void	ft_putstr(char	*str, int	*count)
+void	ft_putstr(char *str, int *count)
 {
 	while (*str)
 	{
@@ -46,7 +46,7 @@ void	ft_putint(int n, int *count)
 	(*count)++;
 }
 
-void	ft_putuint(unsigned int	n, int *count)
+void	ft_putuint(unsigned int n, int *count)
 {
 	unsigned int	num;
 
