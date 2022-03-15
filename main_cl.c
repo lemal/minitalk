@@ -48,8 +48,9 @@ void	ft_control(pid_t server_pid, char *my_str, bool set)
 	}
 }
 
-void	ft_handler(void)
+void	ft_handler(int signum)
 {
+	(void) signum;
 	ft_control(0, NULL, false);
 }
 
