@@ -72,6 +72,7 @@ int	main(void)
 		ft_printf("%d\n", getpid());
 		on_check = true;
 	}
+	pause();
 	signal(SIGUSR1, ft_sig_handler);
 	signal(SIGUSR2, ft_sig_handler);
 	while (1);

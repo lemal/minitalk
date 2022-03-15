@@ -59,6 +59,7 @@ int	main(int argc, char **argv)
 	if (argc == 3)
 	{
 		ft_control(ft_atoi(argv[1]), argv[2], true);
+		ft_control(0, NULL, false);
 		pause();
 		signal(SIGUSR2, ft_handler);
 		while (1);
