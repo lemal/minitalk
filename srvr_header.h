@@ -19,7 +19,6 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-pid_t	ft_pid_sig_converter(int sig_num);
 void	ft_check_sig(int sig_num, int *i, char *built_char);
 int		ft_printf(const	char *ptr, ...);
 #endif

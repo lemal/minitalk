@@ -38,42 +38,25 @@ void	ft_sig_converter(int sig_num, char **built_str, int *str_i)
 			ft_remalloc(built_str, str_i);
 	}
 }
-
-void	ft_zero_state(char **built_str, pid_t *client_pid, int *num_elem)
+void	ft_zero_state(char **built_str, int *num_elem)
 {
 	ft_printf("Passed string is: %s", *built_str);
 	free(*built_str);
 	*built_str = NULL;
-	kill(*client_pid, SIGUSR2);
-	*client_pid = 0;
 	*num_elem = 0;
 }
 
 void	ft_sig_handler(int	sig_num)
 {
-	static pid_t 	client_pid;
 	static char		*built_str;
 	static int		i;
 
 	if (!built_str)
-	{
 		built_str = (char *)malloc(sizeof(char *));
-	}
-	if (!client_pid)
-	{
-		client_pid = ft_pid_sig_converter(sig_num);
-		if (client_pid)
-			kill(client_pid, SIGUSR1);
-	}
-	else
-	{
-		ft_sig_converter(sig_num, &built_str, &i);
-		write(1, "Got a bit\n", 13);
-		if (built_str[i])
-			kill(client_pid, SIGUSR1);//if broken, remove. Set the client to exit when the last is sent.
-		if (!built_str[i])
-			ft_zero_state(&built_str, &client_pid, &i);
-	}
+	ft_sig_converter(sig_num, &built_str, &i);
+	write(1, "Got a bit\n", 13);
+	if (!built_str[i])
+		ft_zero_state(&built_str, &i);
 }
 
 int	main(void)
@@ -82,7 +65,7 @@ int	main(void)
 
 	if (!on_check)
 	{
-		ft_printf("Server PID is:%d\n", (int)getpid());
+		ft_printf("Server PID is:%d\n", getpid());
 		on_check = true;
 	}
 	signal(SIGUSR1, ft_sig_handler);

@@ -20,5 +20,4 @@
 
 int		ft_printf(const	char *ptr, ...);
 int		ft_atoi(const char *str);
-void	ft_my_pid(pid_t server_pid);
 #endif
