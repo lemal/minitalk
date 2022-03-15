@@ -39,6 +39,8 @@ void	ft_control(pid_t server_pid, char *my_str, bool set)
 		ft_send_bit(stored_srvr_pid, stored_my_str[i], &j);
 		if (j == 0)
 		{
+			if (!stored_my_str[i])
+				exit(0);
 			i++;
 			j = 8;
 		}
@@ -47,6 +49,8 @@ void	ft_control(pid_t server_pid, char *my_str, bool set)
 
 void	ft_sig_handler(int	sig_num)
 {
+	(void) sig_num;
+
 	ft_control(0, NULL, false);
 }
 
@@ -54,7 +58,7 @@ int	main(int argc, char **argv)
 {
 	if (argc == 3)
 	{
-		ft_control((pid_t)ft_atoi(argv[1]), argv[2], true);
+		ft_control(ft_atoi(argv[1]), argv[2], true);
 		signal(SIGUSR1, ft_sig_handler);
 		while (1);
 	}

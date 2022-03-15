@@ -44,7 +44,6 @@ void	ft_zero_state(char **built_str, pid_t *client_pid, int *num_elem)
 	ft_printf("Passed string is: %s", *built_str);
 	free(*built_str);
 	*built_str = NULL;
-	kill(*client_pid, SIGUSR2);
 	*client_pid = 0;
 	*num_elem = 0;
 }
@@ -68,7 +67,6 @@ void	ft_sig_handler(int	sig_num)
 	else
 	{
 		ft_sig_converter(sig_num, &built_str, &i);
-		//write(1, "Got a bit\n", 13);
 		if (built_str[i])
 			kill(client_pid, SIGUSR1);//if broken, remove. Set the client to exit when the last is sent.
 		if (!built_str[i])

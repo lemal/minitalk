@@ -11,25 +11,23 @@
 /* ************************************************************************** */
 
 #include "cl_header.h"
+#include <stdio.h>
 
 void	ft_my_pid(pid_t server_pid)
 {
 	int				i;
-	unsigned int	key;
 	pid_t			my_pid;
 
 	i = 31;
 	my_pid = getpid();
 	while (i >= 0)
 	{
-		key = 1;
-		key <<= i;
-		if (key & my_pid)
+		if ((1 << i) & my_pid)
 			kill(server_pid, SIGUSR2);
 		else
 			kill(server_pid, SIGUSR1);
-		//sleep(1);
+		sleep(1);
+		printf("%s", "pid_bit_sent");
 		i--;
 	}
-	
 }
