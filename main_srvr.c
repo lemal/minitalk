@@ -57,10 +57,10 @@ void	ft_sig_handler(int	sig_num)
 	ft_check_sig(sig_num, &i, &built_char);
 	if (i == 8)
 	{
-		//printf("%s", "hello_test\n");
 		write(1, &built_char, 1);
 		i = 0;
 	}
+	kill(0, SIGUSR2);
 }
 
 int	main(void)

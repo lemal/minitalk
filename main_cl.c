@@ -20,7 +20,7 @@ void	ft_send_bit(pid_t server_pid, char my_str_char, int *bit_index)//could be b
 		kill(server_pid, SIGUSR2);
 	else
 		kill(server_pid, SIGUSR1);
-	sleep(1);
+	// sleep(1);
 }
 
 void	ft_control(pid_t server_pid, char *my_str, bool set)
@@ -50,7 +50,6 @@ void	ft_control(pid_t server_pid, char *my_str, bool set)
 
 void	ft_handler(void)
 {
-	//write(1, "in client!\n", 12);
 	ft_control(0, NULL, false);
 }
 
@@ -58,9 +57,12 @@ int	main(int argc, char **argv)
 {
 	if (argc == 3)
 	{
-		ft_control((pid_t)ft_atoi(argv[1]), argv[2], true);
-		while (1)
-			ft_handler();
+		ft_control(ft_atoi(argv[1]), argv[2], true);
+		pause();
+		signal(SIGUSR2, ft_handler);
+		while (1);
+		// while (1)
+		// 	ft_handler();
 	}
 	ft_printf("%s", "ERROR. Check parameter count.\n");
 	return (0);
