@@ -11,15 +11,12 @@
 /* ************************************************************************** */
 
 #include "cl_header.h"
+#include <stdio.h>
 
 void	ft_send_bit(pid_t server_pid, char my_str_char, int *bit_index)//could be bool?
 {
-	unsigned int		key;
-
 	(*bit_index)--;
-	key = 1;
-	key <<= *bit_index;
-	if (my_str_char & key)
+	if (my_str_char & (1 << *bit_index))
 		kill(server_pid, SIGUSR2);
 	else
 		kill(server_pid, SIGUSR1);
@@ -43,17 +40,18 @@ void	ft_control(pid_t server_pid, char *my_str, bool set)
 		ft_send_bit(stored_srvr_pid, stored_my_str[i], &j);
 		if (j == 0)
 		{
+			if (!stored_my_str[i])
+				exit(0);
 			i++;
 			j = 8;
 		}
 	}
 }
 
-void	ft_sig_handler(int	sig_num)
+void	ft_handler(void)
 {
-	write(1, "in client!", 11);
-	if (sig_num == SIGUSR1)
-		ft_control(0, NULL, false);
+	//write(1, "in client!\n", 12);
+	ft_control(0, NULL, false);
 }
 
 int	main(int argc, char **argv)
@@ -61,6 +59,8 @@ int	main(int argc, char **argv)
 	if (argc == 3)
 	{
 		ft_control((pid_t)ft_atoi(argv[1]), argv[2], true);
+		while (1)
+			ft_handler();
 	}
 	ft_printf("%s", "ERROR. Check parameter count.\n");
 	return (0);

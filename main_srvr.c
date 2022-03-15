@@ -11,52 +11,56 @@
 /* ************************************************************************** */
 
 #include "srvr_header.h"
+#include <stdio.h>
 
-void	ft_remalloc(char **built_str, int *i)
+void	ft_bit_stuffer(bool choice, char *built_char, bool reset)
 {
-	char	*temp;
-	int		j;
+	static int	bit_index;
 
-	j = -1;
-	(*i)++;
-	temp = (char *)malloc(sizeof(char *) * *i);
-	while (++j < *i)
-		temp[j] = (*built_str)[j];
-	free(*built_str);
-	*built_str = temp;
-}
-
-void	ft_sig_converter(int sig_num, char **built_str, int *str_i)
-{
-	static int	i;
-
-	ft_check_sig(sig_num, &i, &(*built_str)[*str_i]);
-	if (i == 8)
+	if (reset)
 	{
-		i = 0;
-		if ((*built_str)[*str_i])
-			ft_remalloc(built_str, str_i);
+		bit_index = 7;
+		*built_char = 0;
 	}
+	if (choice)
+		*built_char |= (1 << bit_index);
+	printf("%d\n", bit_index);
+	bit_index--;
 }
-void	ft_zero_state(char **built_str, int *num_elem)
+
+void	ft_check_sig(int sig_num, int *i, char *built_char)
 {
-	ft_printf("Passed string is: %s", *built_str);
-	free(*built_str);
-	*built_str = NULL;
-	*num_elem = 0;
+	if (*i < 8 && sig_num == SIGUSR1)
+	{
+		if (*i == 0)
+			ft_bit_stuffer(0, built_char, true);
+		else
+			ft_bit_stuffer(0, built_char, false);
+		(*i)++;
+	}
+	else if (*i < 8 && sig_num == SIGUSR2)
+	{
+		if (*i == 0)
+			ft_bit_stuffer(1, built_char, true);
+		else
+			ft_bit_stuffer(1, built_char, false);
+		(*i)++;
+	}
 }
 
 void	ft_sig_handler(int	sig_num)
 {
-	static char		*built_str;
-	static int		i;
+	static char	built_char;
+	static int	i;
 
-	if (!built_str)
-		built_str = (char *)malloc(sizeof(char *));
-	ft_sig_converter(sig_num, &built_str, &i);
-	write(1, "Got a bit\n", 13);
-	if (!built_str[i])
-		ft_zero_state(&built_str, &i);
+	printf("%s", "in_server\n");
+	ft_check_sig(sig_num, &i, &built_char);
+	if (i == 8)
+	{
+		//printf("%s", "hello_test\n");
+		write(1, &built_char, 1);
+		i = 0;
+	}
 }
 
 int	main(void)
@@ -65,7 +69,7 @@ int	main(void)
 
 	if (!on_check)
 	{
-		ft_printf("Server PID is:%d\n", getpid());
+		ft_printf("%d\n", getpid());
 		on_check = true;
 	}
 	signal(SIGUSR1, ft_sig_handler);
