@@ -1,6 +1,7 @@
 # minitalk
 
-The client process converts symbolic input into binary representations of each symbol and sends them over using SIGUSR1 and SIGUSR2. Server converts them back and writes them out (even UTF-8!)
-_____________________________
+Another Ecole 42 project.
 
-Процесс-клиент посылает процессу-серверу двоичное предствление своего ввода, чтобы сервер вывел их в терминал.
+This one is about UNIX signals!
+
+The client ranslates UTF-8 strings of text into binary data and uses UNIX signals transmit the binary from a client to the server (Both in repo i think :/ )
